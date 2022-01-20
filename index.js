@@ -46,6 +46,7 @@ app.get('/customer/:id' ,async (req, res)=> {
 //insert into 테이블명(컬럼명1,컬럼명2,컬럼명3...) values ( 값1, 값2, 값3...)
 //
 app.post('/addCustomer',async (req,res) => {
+    
     const { c_name, c_phone, c_birthday, c_gender, c_addr } = req.body;
     connection.query('insert into customers(c_name, c_phone, c_birthday, c_gender, c_addr) values(?,?,?,?,?);',
     [c_name, c_phone, c_birthday, c_gender, c_addr],
@@ -55,18 +56,7 @@ app.post('/addCustomer',async (req,res) => {
     res.send('그린컴퓨터');
 })
 
-//삭제
-//delete from 테이블이름 where 컬럼명 = 값
-// app.delete('/customer/:id',async (req,res) => {
-//     const param = req.params;
-//     connection.query(`delete from customers where c_no = ${param.id}`,(err, rows, fields) => {
-//         res.send(rows);
-//         console.log(삭제);
-//         if(err){
-//             console.log(err);
-//         }
-//     })
-// })
+//삭제 
 app.delete('/customer/:id',async(req, res) => {
     const params = req.params;
     console.log('삭제');
@@ -77,7 +67,19 @@ app.delete('/customer/:id',async(req, res) => {
         }
     ) 
 })
-
+//수정하기
+// UPDATE 테이블이름
+// SET 필드이름1=데이터값1, 필드이름2=데이터값2, ...
+// WHERE 필드이름=데이터값
+app.put('/editCustomer/:id',async (req, res) => {
+    const param = req.params;
+    const { c_name, c_phone, c_birthday, c_gender, c_addr } = req.body;
+    connection.query(`update customers set c_name='${c_name}', c_phone='${c_phone}',c_birthday='${c_birthday}',c_gender='${c_gender}',c_addr='${c_addr}' where c_no = ${param.id}`, 
+    function (err, result, fields){
+        console.log(result,err);
+    }
+    )
+})
 
 
 
