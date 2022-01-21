@@ -47,9 +47,10 @@ app.get('/customer/:id' ,async (req, res)=> {
 //
 app.post('/addCustomer',async (req,res) => {
     
-    const { c_name, c_phone, c_birthday, c_gender, c_addr } = req.body;
+    const { c_name, c_phone, c_birthday, c_gender, c_addr, c_addrdetail } = req.body;
+    const c_add = `${c_addr} ${c_addrdetail}`;
     connection.query('insert into customers(c_name, c_phone, c_birthday, c_gender, c_addr) values(?,?,?,?,?);',
-    [c_name, c_phone, c_birthday, c_gender, c_addr],
+    [c_name, c_phone, c_birthday, c_gender, c_add],
     function (err, result, fields){
         console.log(result);
     })
